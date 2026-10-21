@@ -110,7 +110,7 @@ def lambda_handler(event, context):
                 return response(200, {"message": "Note deleted"})
 
         return response(404, {"message": "Route not found"})
-
-    except ClientError:
-        print("DynamoDB operation failed")
+    
+    except ClientError as e:
+        print("DynamoDB error:", e.response["Error"])
         return response(500, {"message": "Database operation failed"})
