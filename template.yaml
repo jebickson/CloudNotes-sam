@@ -5,6 +5,12 @@ Description: CloudNotes API
 Globals:
   Function:
     Timeout: 30
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type,Authorization,X-User-Id'"
 
 Resources:
   HelloWorldFunction:
@@ -15,7 +21,7 @@ Resources:
       Runtime: python3.14
       Architectures:
         - x86_64
-        
+
       Environment:
         Variables:
           TABLE_NAME: CloudNotes
@@ -45,5 +51,5 @@ Resources:
 
 Outputs:
   CloudNotesApi:
-    Description: CloudNotes API
-    Value: CloudNotes API configured
+    Description: CloudNotes API URL
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
