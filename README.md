@@ -1,130 +1,265 @@
-# cloudnotes-sam
+# CloudNotes
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+A serverless notes application built on AWS. A Python REST API runs on **AWS Lambda** behind **Amazon API Gateway**, stores data in **Amazon DynamoDB**, and is defined as infrastructure-as-code with the **AWS Serverless Application Model (SAM)**. The frontend is deployed on **Vercel**.
 
-- hello_world - Code for the application's Lambda function.
-- events - Invocation events that you can use to invoke the function.
-- tests - Unit tests for the application code. 
-- template.yaml - A template that defines the application's AWS resources.
+**Live demo:** https://cloudnotes-ivory.vercel.app/
 
-The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
+![AWS](https://img.shields.io/badge/AWS-Lambda%20%7C%20API%20Gateway%20%7C%20DynamoDB-FF9900?logo=amazonaws&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
+![SAM](https://img.shields.io/badge/IaC-AWS%20SAM-232F3E)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)
 
-If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
-The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds a simplified step-through debugging experience for Lambda function code. See the following links to get started.
+---
 
-* [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [WebStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [Rider](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PhpStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PyCharm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [RubyMine](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [DataGrip](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
-* [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
+## Overview
 
-## Deploy the sample application
+CloudNotes lets visitors create, read, update, and delete their own notes through a fully managed, pay-per-use backend. There are no servers to provision or patch, and the API stack can be deployed or removed with a couple of commands.
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
+Each browser gets its own private ID, sent with every request, so visitors only ever see their own notes without having to sign up.
 
-To use the SAM CLI, you need the following tools.
+## Architecture
 
-* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* [Python 3 installed](https://www.python.org/downloads/)
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+```
+┌──────────────┐     HTTPS      ┌─────────────────┐     invoke     ┌──────────────┐
+│   Frontend   │ ─────────────▶ │   API Gateway   │ ─────────────▶ │    Lambda    │
+│   (Vercel)   │ ◀───────────── │   (REST, Prod)  │ ◀───────────── │  (Python)    │
+└──────────────┘      JSON      └─────────────────┘                └──────┬───────┘
+                                                                          │ CRUD
+                                                                          ▼
+                                                                   ┌──────────────┐
+                                                                   │   DynamoDB   │
+                                                                   │  (CloudNotes)│
+                                                                   └──────────────┘
+```
 
-To build and deploy your application for the first time, run the following in your shell:
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend | Vercel | User interface for managing notes |
+| API | Amazon API Gateway (REST) | Public HTTPS endpoint, CORS, and routing |
+| Compute | AWS Lambda (Python 3.14, x86_64) | Single handler that routes by HTTP method and path |
+| Database | Amazon DynamoDB (`CloudNotes` table) | Serverless NoSQL storage for notes |
+| IaC | AWS SAM / CloudFormation | Repeatable, versioned infrastructure |
+
+A single Lambda function handles every route. API Gateway forwards `/`, `/notes`, and `/notes/{id}` to it using `ANY` methods, and the handler (`app.lambda_handler`) dispatches on the request method and path.
+
+## Features
+
+- Serverless, fully managed backend that scales automatically
+- Full CRUD API for notes with JSON request and response bodies
+- Per-visitor data isolation using a private `X-User-Id` header
+- Input validation with clear error responses (400, 401, 404, 405, 500)
+- Paginated DynamoDB scans so large result sets are never silently truncated
+- Least-privilege runtime access: the Lambda role can only reach the `CloudNotes` table
+- CORS configured for browser clients, including preflight (`OPTIONS`) handling
+- Infrastructure defined as code in a single `template.yaml`
+- Local testing with the SAM CLI and Docker, plus unit tests with `pytest`
+
+## Project Structure
+
+```
+CloudNotes-sam/
+├── frontend/          # Web client deployed to Vercel
+├── hello_world/       # Lambda function source (app.py, requirements.txt)
+├── events/            # Sample invocation events for local testing
+├── tests/             # Unit and integration tests
+├── template.yaml      # SAM template (Lambda function, API Gateway routes, IAM policy)
+├── samconfig.toml     # SAM deployment configuration
+└── test_local.py      # Local test script
+```
+
+## Data Model
+
+Notes are stored in a DynamoDB table named `CloudNotes`.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `id` | String (partition key) | UUID generated by the API |
+| `userId` | String | Owner of the note, taken from the `X-User-Id` header. Never returned to clients |
+| `title` | String | Required note title |
+| `content` | String | Note body (optional, defaults to empty) |
+
+## API Reference
+
+Base URL: `https://<api-id>.execute-api.<region>.amazonaws.com/Prod`
+
+The exact URL is printed as the `CloudNotesApi` output after deployment.
+
+### Authentication and headers
+
+Every request except the browser `OPTIONS` preflight must include an `X-User-Id` header. The value must be 16 to 64 characters long and contain only letters, digits, hyphens, or underscores. Requests with a missing or invalid value receive `401`.
+
+The frontend generates this ID once per browser, and the API uses it to scope every read and write. A note owned by another user is reported as `404`, so its existence is never revealed.
+
+### Endpoints
+
+| Method | Endpoint | Description | Success |
+|--------|----------|-------------|---------|
+| `GET` | `/notes` | List all notes for the current user | `200` |
+| `POST` | `/notes` | Create a note (`title` required, `content` optional) | `201` |
+| `GET` | `/notes/{id}` | Get one note | `200` |
+| `PUT` | `/notes/{id}` | Update the title and/or content of a note | `200` |
+| `DELETE` | `/notes/{id}` | Delete a note | `200` |
+
+### Error responses
+
+| Status | Meaning |
+|--------|---------|
+| `400` | Invalid JSON, missing or empty title, or non-text content |
+| `401` | Missing or invalid `X-User-Id` header |
+| `404` | Note not found (or owned by someone else), or unknown route |
+| `405` | Method not allowed on `/notes/{id}` |
+| `500` | Database operation failed |
+
+### Examples
+
+**Create a note**
+
+```bash
+curl -X POST "https://<api-id>.execute-api.<region>.amazonaws.com/Prod/notes" \
+  -H "Content-Type: application/json" \
+  -H "X-User-Id: demo-user-1234567890" \
+  -d '{"title": "First note", "content": "Hello from CloudNotes"}'
+```
+
+```json
+{
+  "id": "3f1c9a52-8d44-4c1e-9b7a-2a6f0e5d1c77",
+  "title": "First note",
+  "content": "Hello from CloudNotes"
+}
+```
+
+**List notes**
+
+```bash
+curl "https://<api-id>.execute-api.<region>.amazonaws.com/Prod/notes" \
+  -H "X-User-Id: demo-user-1234567890"
+```
+
+**Update a note**
+
+```bash
+curl -X PUT "https://<api-id>.execute-api.<region>.amazonaws.com/Prod/notes/<note-id>" \
+  -H "Content-Type: application/json" \
+  -H "X-User-Id: demo-user-1234567890" \
+  -d '{"content": "Updated content"}'
+```
+
+**Delete a note**
+
+```bash
+curl -X DELETE "https://<api-id>.execute-api.<region>.amazonaws.com/Prod/notes/<note-id>" \
+  -H "X-User-Id: demo-user-1234567890"
+```
+
+## Getting Started
+
+### Prerequisites
+
+- An [AWS account](https://aws.amazon.com/) with the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) configured
+- [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+- [Python 3.14](https://www.python.org/downloads/)
+- [Docker](https://www.docker.com/products/docker-desktop/) (needed for `sam build --use-container` and local invocation)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/jebickson/CloudNotes-sam.git
+cd CloudNotes-sam
+```
+
+### 2. Create the DynamoDB table
+
+The stack grants the function access to a table named `CloudNotes` but does not create it, so create it once in your target region before deploying:
+
+```bash
+aws dynamodb create-table \
+  --table-name CloudNotes \
+  --attribute-definitions AttributeName=id,AttributeType=S \
+  --key-schema AttributeName=id,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --region eu-north-1
+```
+
+### 3. Build and deploy
 
 ```bash
 sam build --use-container
 sam deploy --guided
 ```
 
-The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
+The guided deploy asks for a stack name, AWS region, and IAM capability confirmation, then saves your answers to `samconfig.toml`. After the first run, `sam deploy` is enough. The API URL appears in the stack **Outputs**.
 
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
-
-You can find your API Gateway Endpoint URL in the output values displayed after deployment.
-
-## Use the SAM CLI to build and test locally
-
-Build your application with the `sam build --use-container` command.
+### Run locally
 
 ```bash
-cloudnotes-sam$ sam build --use-container
+sam build --use-container
+sam local start-api
 ```
 
-The SAM CLI installs dependencies defined in `hello_world/requirements.txt`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
-
-Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
-
-Run functions locally and invoke them with the `sam local invoke` command.
+The API is then served at `http://localhost:3000`. To invoke the function with a sample event:
 
 ```bash
-cloudnotes-sam$ sam local invoke HelloWorldFunction --event events/event.json
+sam local invoke HelloWorldFunction --event events/event.json
 ```
 
-The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
+### Run the tests
 
 ```bash
-cloudnotes-sam$ sam local start-api
-cloudnotes-sam$ curl http://localhost:3000/
+pip install -r tests/requirements.txt
+python -m pytest tests/unit -v
 ```
 
-The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
+## Configuration
 
-```yaml
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /hello
-            Method: get
-```
+| Setting | Value | Defined in |
+|---------|-------|-----------|
+| `TABLE_NAME` | `CloudNotes` | Lambda environment variable in `template.yaml` |
+| Region (fallback) | `eu-north-1` | `hello_world/app.py` |
+| Runtime | `python3.14` (x86_64) | `template.yaml` |
+| Timeout | 30 seconds | `Globals` in `template.yaml` |
+| API stage | `Prod` | SAM default |
 
-## Add a resource to your application
-The application template uses AWS Serverless Application Model (AWS SAM) to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources such as functions, triggers, and APIs. For resources not included in [the SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use standard [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) resource types.
-
-## Fetch, tail, and filter Lambda function logs
-
-To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs` lets you fetch logs generated by your deployed Lambda function from the command line. In addition to printing the logs on the terminal, this command has several nifty features to help you quickly find the bug.
-
-`NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
+## Monitoring and Logs
 
 ```bash
-cloudnotes-sam$ sam logs -n HelloWorldFunction --stack-name "cloudnotes-sam" --tail
+sam logs --stack-name cloudnotes-sam --tail
 ```
 
-You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
+## Security
 
-## Tests
-
-Tests are defined in the `tests` folder in this project. Use PIP to install the test dependencies and run tests.
-
-```bash
-cloudnotes-sam$ pip install -r tests/requirements.txt --user
-# unit test
-cloudnotes-sam$ python -m pytest tests/unit -v
-# integration test, requiring deploying the stack first.
-# Create the env variable AWS_SAM_STACK_NAME with the name of the stack we are testing
-cloudnotes-sam$ AWS_SAM_STACK_NAME="cloudnotes-sam" python -m pytest tests/integration -v
-```
+- **Data isolation:** every read and write is scoped to the caller's `X-User-Id`, and the ID is never included in API responses. Note ownership is checked on every operation by ID.
+- **Not full authentication:** the user ID is an anonymous, browser-generated identifier, so anyone who knows it can access that visitor's notes. Treat it as a secret, and use Amazon Cognito if you need real accounts.
+- **IAM:** deployment uses a dedicated IAM user with scoped, least-privilege policies instead of administrator access. The Lambda execution role is limited to CRUD operations on the `CloudNotes` table.
+- **CORS:** currently allows any origin (`*`) for development convenience. Restrict `AllowOrigin` to your Vercel domain for production.
+- Never commit AWS credentials or `.env` files.
 
 ## Cleanup
 
-To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
-
 ```bash
-sam delete --stack-name "cloudnotes-sam"
+sam delete --stack-name cloudnotes-sam
 ```
 
-## Resources
+This removes the API Gateway and Lambda resources. The `CloudNotes` DynamoDB table is not part of the stack, so delete it separately if you no longer need it:
 
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
+```bash
+aws dynamodb delete-table --table-name CloudNotes --region eu-north-1
+```
 
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+## Roadmap
+
+- [ ] Define the DynamoDB table in `template.yaml` so the whole stack deploys in one step
+- [ ] Add a global secondary index on `userId` and replace the table scan with a query for faster listing at scale
+- [ ] Authentication with Amazon Cognito
+- [ ] Restrict CORS to the production frontend origin
+- [ ] CI/CD pipeline with GitHub Actions
+- [ ] Search and tagging
+
+## Author
+
+**Jebickson Samuel**
+GitHub: [@jebickson](https://github.com/jebickson)
+
+---
+
+Built with AWS SAM, Lambda, API Gateway, and DynamoDB.
