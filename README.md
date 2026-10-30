@@ -3,6 +3,7 @@
 A serverless notes application built on AWS. A Python REST API runs on **AWS Lambda** behind **Amazon API Gateway**, stores data in **Amazon DynamoDB**, and is defined as infrastructure-as-code with the **AWS Serverless Application Model (SAM)**. The frontend is deployed on **Vercel**.
 
 **Live demo:** https://cloudnotes-ivory.vercel.app/
+**Documentation:** https://jebickson.gitbook.io/cloudnotes-technical-documentation
 
 ![AWS](https://img.shields.io/badge/AWS-Lambda%20%7C%20API%20Gateway%20%7C%20DynamoDB-FF9900?logo=amazonaws&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
