@@ -3,7 +3,7 @@ import json
 import sys
 from pathlib import Path
 
-# Add hello_world folder to Python's import path
+# Add notes_app folder to Python's import path
 APP_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(APP_DIR))
 
