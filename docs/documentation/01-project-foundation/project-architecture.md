@@ -20,8 +20,9 @@ This architecture provides a separation of responsibilities between the user int
 
 The following diagram illustrates the overall architecture of CloudNotes.
 
-```
-flowchart TD
+```mermaid
+
+flowchart LR
     U[User] --> F[Next.js Frontend]
     F -->|HTTPS Requests| API[Amazon API Gateway]
     API --> L[AWS Lambda - Python]
@@ -34,6 +35,7 @@ flowchart TD
     V[Vercel Hosting] -. Hosts .-> F
     S[AWS SAM] -. Deploys Infrastructure .-> L
     S -. Configures .-> API
+
 ```
 
 #### Architecture Overview
