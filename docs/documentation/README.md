@@ -1,30 +1,206 @@
 ---
 description: >-
-  Everything you need to build, deploy, and manage your projects on the
-  platform.
+  Technical documentation for CloudNotes, covering project architecture,
+  frontend and backend implementation, REST API, AWS infrastructure, database
+  design, testing, and deployment.
 icon: hand-wave
 ---
 
-# Welcome
+# Welcome to CloudNotes
 
-Welcome to the platform. These docs cover everything from your first project to advanced workflows — pick a starting point below or ask the Assistant to jump straight to what you need.
+#### A Serverless Personal Notes Management Application
 
-<button type="button" class="button primary" data-action="ask" data-icon="gitbook-assistant">Ask a question…</button>
+Welcome to the technical documentation of **CloudNotes** — a full-stack serverless application built to create, manage, update, and store personal notes using modern web technologies and AWS cloud services.
 
-<button type="button" class="button secondary" data-action="ask" data-query="How do I deploy my first project" data-icon="rocket-launch">Deploy your first project</button><button type="button" class="button secondary" data-action="ask" data-query="How do I set up a custom domain" data-icon="globe">Set up a custom domain</button><button type="button" class="button secondary" data-action="ask" data-query="How do I invite my team" data-icon="user-group">Invite your team</button>
+CloudNotes combines a Next.js frontend with a Python-powered AWS serverless backend to provide a simple and accessible note-management experience.
+
+**Live Application:**\
+[https://cloudnotes-ivory.vercel.app/](https://cloudnotes-ivory.vercel.app/)
+
+**GitHub Repository:**\
+[https://github.com/jebickson/CloudNotes-sam](https://github.com/jebickson/CloudNotes-sam)
 
 ***
 
-{% hint style="success" icon="sparkles" %}
-**New: scheduled deploys and team-level audit logs.** Schedule deploys for any future date and review every action taken in your workspace.
+### 1. About the Project
 
-<a href="https://app.gitbook.com/s/m4uwWUaWtGFsEiZtpY3s/" class="button secondary">See what's new</a>
-{% endhint %}
+CloudNotes is a personal notes management application designed to provide users with a simple workspace for managing their notes.
 
-## Where to start
+The application connects a web-based frontend to a cloud backend through REST API endpoints.
 
-<table data-card-size="large" data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4><i class="fa-rocket-launch" style="color:$primary;">:rocket-launch:</i></h4></td><td><h4>Getting started</h4></td><td>Set up your account and ship your first project in minutes.</td><td><a href="getting-started/getting-started.md">getting-started.md</a></td></tr><tr><td><h4><i class="fa-book" style="color:$primary;">:book:</i></h4></td><td><h4>Core concepts</h4></td><td>Understand workspaces, projects, and how permissions work.</td><td><a href="core-concepts/core-concepts.md">core-concepts.md</a></td></tr><tr><td><h4><i class="fa-graduation-cap" style="color:$primary;">:graduation-cap:</i></h4></td><td><h4>Guides</h4></td><td>Walkthroughs for common tasks like custom domains and automations.</td><td><a href="guides/guides.md">guides.md</a></td></tr><tr><td><h4><i class="fa-book-open" style="color:$primary;">:book-open:</i></h4></td><td><h4>Reference</h4></td><td>Detailed configuration options, limits, and terminology.</td><td><a href="reference/reference.md">reference.md</a></td></tr></tbody></table>
+The backend processes requests using AWS Lambda and stores note data in Amazon DynamoDB.
 
-## Popular tasks
+#### Key Features
 
-<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-type="content-ref"></th><th data-type="content-ref"></th></tr></thead><tbody><tr><td><h4>For builders</h4></td><td><a href="getting-started/quickstart.md">quickstart.md</a></td><td><a href="getting-started/your-first-project.md">your-first-project.md</a></td><td><a href="guides/custom-domains.md">custom-domains.md</a></td></tr><tr><td><h4>For admins</h4></td><td><a href="core-concepts/permissions.md">permissions.md</a></td><td><a href="reference/configuration.md">configuration.md</a></td><td><a href="core-concepts/workspaces-and-projects.md">workspaces-and-projects.md</a></td></tr><tr><td><h4>For developers</h4></td><td><a href="guides/automations.md">automations.md</a></td><td><a href="reference/glossary.md">glossary.md</a></td><td><a href="reference/configuration.md">configuration.md</a></td></tr></tbody></table>
+* Create personal notes.
+* View saved notes.
+* Update existing notes.
+* Delete notes.
+* Communicate with a cloud-hosted backend.
+* Store application data in Amazon DynamoDB.
+* Access the application through a deployed web interface.
+
+***
+
+### 2. Technology Stack
+
+CloudNotes is developed using the following technologies.
+
+| Layer                | Technology         |
+| -------------------- | ------------------ |
+| Frontend             | Next.js            |
+| Programming Language | TypeScript         |
+| Backend              | Python             |
+| Backend Runtime      | AWS Lambda         |
+| API Management       | Amazon API Gateway |
+| Database             | Amazon DynamoDB    |
+| Infrastructure       | AWS SAM            |
+| Frontend Hosting     | Vercel             |
+| Version Control      | Git and GitHub     |
+
+***
+
+### 3. System Architecture
+
+CloudNotes follows a serverless architecture in which the frontend communicates with cloud-based backend services.
+
+```
+                 USER
+                   |
+                   v
+            VERCEL FRONTEND
+                Next.js
+                   |
+                   | HTTPS
+                   v
+           AMAZON API GATEWAY
+                   |
+                   v
+              AWS LAMBDA
+                Python
+                   |
+                   v
+            AMAZON DYNAMODB
+              Note Storage
+```
+
+#### Architecture Overview
+
+* **Frontend:** Provides the user interface and note-management experience.
+* **API Gateway:** Receives HTTP requests from the frontend.
+* **AWS Lambda:** Executes backend operations.
+* **DynamoDB:** Stores and retrieves note information.
+* **Vercel:** Hosts the frontend application.
+* **AWS SAM:** Defines and deploys the serverless backend infrastructure.
+
+***
+
+### 4. Documentation Navigation
+
+Explore the technical documentation through the following sections.
+
+#### Project Documentation
+
+1. **Project Overview** – Introduction, objectives, features, and project scope.
+2. **Project Architecture** – System architecture, components, and data flow.
+3. **Project Folder Structure** – Repository organization and important files.
+
+#### Technical Implementation
+
+4. **Backend Implementation** – Python Lambda functions and backend logic.
+5. **Frontend Implementation** – Next.js interface and frontend structure.
+6. **API Documentation** – API endpoints, request headers, and responses.
+7. **Database Implementation** – DynamoDB table design and data operations.
+
+#### Cloud Deployment and Testing
+
+8. **AWS Configuration** – AWS services, permissions, and infrastructure configuration.
+9. **Testing and Validation** – Testing approach, test cases, and validation.
+10. **Deployment Guide** – AWS backend deployment and Vercel frontend hosting.
+
+***
+
+### 5. Live Application and Source Code
+
+Explore the deployed application and its source code.
+
+**Live Application:**\
+[https://cloudnotes-ivory.vercel.app/](https://cloudnotes-ivory.vercel.app/)
+
+**GitHub Repository:**\
+[https://github.com/jebickson/CloudNotes-sam](https://github.com/jebickson/CloudNotes-sam)
+
+**Frontend Hosting:** Vercel
+
+**Cloud Platform:** Amazon Web Services
+
+***
+
+### 6. Deployment Status
+
+CloudNotes has been deployed using Vercel and AWS cloud services.
+
+The live application was tested by creating and successfully saving a test note through the frontend.
+
+| Component                | Status                              |
+| ------------------------ | ----------------------------------- |
+| Next.js Frontend         | Deployed                            |
+| AWS Backend              | Deployed                            |
+| API Communication        | Verified                            |
+| Note Creation and Saving | Tested successfully                 |
+| Full CRUD Workflow       | Additional verification recommended |
+
+***
+
+### 7. Project Objectives
+
+The main objectives of CloudNotes are:
+
+* Build a full-stack web application.
+* Understand frontend and backend integration.
+* Implement serverless backend functionality.
+* Work with REST API communication.
+* Integrate a NoSQL cloud database.
+* Deploy an application using AWS and Vercel.
+* Understand cloud infrastructure and application deployment.
+
+***
+
+### 8. What This Project Demonstrates
+
+CloudNotes demonstrates practical development experience in:
+
+* Full-stack application development.
+* Python backend programming.
+* Next.js frontend development.
+* REST API integration.
+* Serverless application architecture.
+* AWS cloud services.
+* NoSQL database integration.
+* Application deployment and testing.
+
+***
+
+### 9. Project Information
+
+| Detail               | Information                           |
+| -------------------- | ------------------------------------- |
+| Project Name         | CloudNotes                            |
+| Project Type         | Full-Stack Serverless Web Application |
+| Frontend             | Next.js                               |
+| Backend              | Python AWS Lambda                     |
+| Database             | Amazon DynamoDB                       |
+| API                  | Amazon API Gateway                    |
+| Cloud Infrastructure | AWS SAM                               |
+| Frontend Deployment  | Vercel                                |
+| Source Code          | GitHub                                |
+
+***
+
+### Conclusion
+
+CloudNotes represents a practical implementation of a serverless full-stack application using modern frontend technologies and AWS cloud infrastructure.
+
+This documentation provides a complete technical overview of the project, including its architecture, implementation, API design, database integration, AWS configuration, testing, and deployment.
+
+**Explore the documentation to understand how CloudNotes is designed, developed, and deployed.**

@@ -1,27 +1,28 @@
 # Table of contents
 
-* [Welcome](README.md)
+* [Welcome to CloudNotes](README.md)
 
-## Getting Started
+## 01 — Project Foundation
 
-* [Getting started](getting-started/getting-started.md)
-* [Quickstart](getting-started/quickstart.md)
-* [Your first project](getting-started/your-first-project.md)
+* [Project Folder Structure](01-project-foundation/project-folder-structure.md)
+* [Project Overview](01-project-foundation/project-overview.md)
+* [Project Architecture](01-project-foundation/project-architecture.md)
 
-## Core concepts
+## 02 — APPLICATION DEVELOPMENT
 
-* [Core concepts](core-concepts/core-concepts.md)
-* [Workspaces and projects](core-concepts/workspaces-and-projects.md)
-* [Permissions](core-concepts/permissions.md)
+* [Backend Implementation](02-application-development/backend-implementation.md)
+* [Frontend Implementation](02-application-development/frontend-implementation.md)
 
-## Guides
+## 03 · Data & API
 
-* [Guides](guides/guides.md)
-* [Custom domains](guides/custom-domains.md)
-* [Automations](guides/automations.md)
+* [Database Implementation](03-data-and-api/database-implementation.md)
+* [API Documentation](03-data-and-api/api-documentation.md)
 
-## Reference
+## 04 · Cloud & Deployment
 
-* [Reference](reference/reference.md)
-* [Configuration](reference/configuration.md)
-* [Glossary](reference/glossary.md)
+* [Deployment Guide](04-cloud-and-deployment/deployment-guide.md)
+* [AWS Configuration](04-cloud-and-deployment/aws-configuration.md)
+
+## 05 · Quality Assurance
+
+* [Testing and Validation](05-quality-assurance/testing-and-validation.md)
