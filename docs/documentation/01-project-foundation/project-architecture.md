@@ -148,7 +148,7 @@ The `userId` attribute is used to associate notes with a visitor identifier.
 
 CloudNotes processes application requests through the following flow:
 
-```
+```mermaid
 sequenceDiagram
     actor User
     participant Frontend as Next.js Frontend
