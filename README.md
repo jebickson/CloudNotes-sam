@@ -59,7 +59,7 @@ A single Lambda function handles every route. API Gateway forwards `/`, `/notes`
 ```
 CloudNotes-sam/
 ├── frontend/          # Web client deployed to Vercel
-├── hello_world/       # Lambda function source (app.py, requirements.txt)
+├── notes_api/       # Lambda function source (app.py, requirements.txt)
 ├── events/            # Sample invocation events for local testing
 ├── tests/             # Unit and integration tests
 ├── template.yaml      # SAM template (Lambda function, API Gateway routes, IAM policy)
