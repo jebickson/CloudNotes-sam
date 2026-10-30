@@ -1,5 +1,5 @@
 ---
-description: Welcome to your team’s developer platform
+description: A Cloud-Based Notes Management Application
 icon: house
 layout:
   width: wide
@@ -23,256 +23,119 @@ layout:
     visible: false
 ---
 
-# Developer Platform
+# CloudNotes
 
 <button type="button" class="button primary" data-action="ask" data-icon="gitbook-assistant">Ask a question...</button>
 
+### About CloudNotes
+
+CloudNotes is a full-stack cloud-based notes management application that allows users to create, store, retrieve, update, and manage their notes through a web interface.
+
+The project demonstrates the integration of modern web development with AWS serverless technologies. It uses a Next.js frontend, Python-based AWS Lambda functions, Amazon API Gateway, and Amazon DynamoDB to provide a scalable backend architecture.
+
+#### What this project demonstrates
+
+* Full-stack application development
+* Python backend development using AWS Lambda
+* REST API integration using Amazon API Gateway
+* NoSQL database management with Amazon DynamoDB
+* Cloud deployment and serverless architecture
+
 <button type="button" class="button secondary" data-action="ask" data-query="How do I get started?" data-icon="rocket-launch">Get started</button><button type="button" class="button secondary" data-action="ask" data-query="How do I authenticate with the developer platform?" data-icon="key">Authenticate</button><button type="button" class="button secondary" data-action="ask" data-query="How do I integrate with my stack?" data-icon="code">Integrate</button><button type="button" class="button secondary" data-action="ask" data-query="How do I contribute?" data-icon="code-pull-request">Contribute</button>
 
-&#x20;
+&#x20;Technology Stack
 
-<table data-view="cards"><thead><tr><th></th><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td><h4><i class="fa-leaf" style="color:$primary;">:leaf:</i></h4></td><td><strong>No code</strong></td><td>Get started with the developer platform in 5 minutes.</td><td><a href="https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/getting-started/quickstart">Quickstart</a></td><td><a href=".gitbook/assets/no-code.jpg">no-code.jpg</a></td></tr><tr><td><h4><i class="fa-server" style="color:$primary;">:server:</i></h4></td><td><strong>Hosted</strong></td><td>Learn more about hosting the developer platform.</td><td><a href="https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/getting-started/your-first-project">Your first project</a></td><td><a href=".gitbook/assets/hosted.jpg">hosted.jpg</a></td></tr><tr><td><h4><i class="fa-terminal" style="color:$primary;">:terminal:</i></h4></td><td><strong>API reference</strong></td><td>Browse, test, and implement APIs.</td><td><a href="https://app.gitbook.com/o/CclAFKV0I1pxtRVkuW2Q/s/DXVpaLh7ecn2AxHMIRv4/">API Reference</a></td><td><a href=".gitbook/assets/api-reference.jpg">api-reference.jpg</a></td></tr></tbody></table>
+| Layer          | Technology                |
+| -------------- | ------------------------- |
+| Frontend       | Next.js                   |
+| Backend        | Python                    |
+| API            | Amazon API Gateway        |
+| Compute        | AWS Lambda                |
+| Database       | Amazon DynamoDB           |
+| Cloud Platform | Amazon Web Services (AWS) |
 
-&#x20;
+### System Architecture
 
-&#x20;
+CloudNotes follows a serverless architecture using AWS managed services. The frontend communicates with backend services through Amazon API Gateway. AWS Lambda processes requests and interacts with Amazon DynamoDB to store and retrieve notes.
 
-{% columns %}
-{% column width="50%" %}
-## Get started in minutes
-
-Make your first API call in under 5 minutes.
-
-This quickstart walks through the basic setup: create an account, generate an API key, and send a test request. The examples use the same request in several languages, so you can start with the one that matches your stack.
-
-{% hint style="info" icon="sparkle" %}
-**Customize your first request**
-
-Explain what you're building and let AI tweak your quickstart.
-
-<button type="button" class="button primary" data-action="ask" data-icon="gitbook-assistant">What are you building?</button>
-{% endhint %}
-
-{% hint style="warning" icon="life-ring" %}
-**Need some help?**
-
-Troubleshoot common issues or ask for help.
-
-<details>
-
-<summary>I get a 401 Unauthorized error</summary>
-
-Check that your API key is present and valid.
-
-Make sure you replaced `YOUR_API_KEY` in the example.
-
-Confirm the `Authorization` header uses `Bearer YOUR_API_KEY`.
-
-</details>
-
-<details>
-
-<summary>I get a 400 Bad Request error</summary>
-
-Check your request body first.
-
-Make sure the JSON is valid and the `message` field is included.
-
-Also confirm you send `Content-Type: application/json`.
-
-</details>
-
-<details>
-
-<summary>The request succeeds, but the result is not what I expect</summary>
-
-Start with the sample payload before testing custom input.
-
-Check the response `status` field to confirm whether the request was only queued.
-
-If you change the payload shape, verify the endpoint accepts those fields.
-
-</details>
-
-<details>
-
-<summary>My local example does not run</summary>
-
-Check that your runtime and dependencies are installed.
-
-For JavaScript, install the SDK before running the example.
-
-For Python, make sure `requests` is available in your environment.
-
-</details>
-
-<button type="button" class="button primary" data-action="ask" data-icon="gitbook-assistant">Explain what's happening...</button>
-{% endhint %}
-
-With your first request done, use the guides for deeper setup and the API reference for endpoints and parameters.
-
-<a href="https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/getting-started/getting-started" class="button primary" data-icon="rocket-launch">Get started</a> <a href="https://app.gitbook.com/o/CclAFKV0I1pxtRVkuW2Q/s/DXVpaLh7ecn2AxHMIRv4/" class="button secondary" data-icon="terminal">API reference</a>
-
-&#x20;
-
-&#x20;
-{% endcolumn %}
-
-{% column width="50%" %}
-{% stepper %}
-{% step %}
-#### Create your API key
-
-Set up your account, then generate an API key for local testing and your first integration.
-
-<a href="http://app.gitbook.com/join" class="button primary">Sign up</a><a href="http://app.gitbook.com/join" class="button secondary">Log in</a>
-{% endstep %}
-
-{% step %}
-#### Make your first request
-
-Pick a language below, replace `YOUR_API_KEY`, and run.
-
-{% tabs %}
-{% tab title="JavaScript" %}
-{% code overflow="wrap" %}
-```javascript
-// Import the SDK
-import ExampleAPI from "example-api";
-
-// Initialize the client
-const client = new ExampleAPI({ apiKey: "YOUR_API_KEY" });
-
-// Send your first message
-const response = await client.messages.send({
-  message: "Hello, world!"
-});
+```mermaid
+flowchart LR
+    A[User] --> B[Next.js Frontend]
+    B -->|HTTP Request| C[Amazon API Gateway]
+    C -->|Invoke| D[AWS Lambda - Python]
+    D -->|Read and Write| E[(Amazon DynamoDB)]
+    E -->|Result| D
+    D -->|Response| C
+    C -->|API Response| B
+    B --> A
 ```
-{% endcode %}
-{% endtab %}
 
-{% tab title="Python" %}
-{% code overflow="wrap" %}
-```python
-import requests
+### Project Features
 
-response = requests.post(
-    "https://api.example.com/messages",
-    headers={
-        "Authorization": "Bearer YOUR_API_KEY",
-        "Content-Type": "application/json",
-    },
-    json={
-        "message": "Hello, world!"
-    },
-)
+CloudNotes provides a simple and efficient way to manage notes using a modern web interface and AWS cloud services.
 
-print(response.json())
-```
-{% endcode %}
-{% endtab %}
+#### 1. Create Notes
 
-{% tab title="cURL" %}
-{% code overflow="wrap" %}
-```bash
-curl -X POST https://api.example.com/messages \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Hello, world!"
-  }'
-```
-{% endcode %}
-{% endtab %}
+Create new notes by entering the required information through the application interface.
 
-{% tab title="Go" %}
-{% code overflow="wrap" expandable="true" %}
-```go
-package main
+#### 2. View Notes
 
-import (
-    "bytes"
-    "fmt"
-    "io"
-    "net/http"
-)
+Retrieve and display saved notes from the cloud database.
 
-func main() {
-    body := []byte(`{"message":"Hello, world!"}`)
+#### 3. Update Notes
 
-    req, err := http.NewRequest("POST", "https://api.example.com/messages", bytes.NewBuffer(body))
-    if err != nil {
-        panic(err)
-    }
+Edit existing notes and save the updated information.
 
-    req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
-    req.Header.Set("Content-Type", "application/json")
+#### 4. Delete Notes
 
-    resp, err := http.DefaultClient.Do(req)
-    if err != nil {
-        panic(err)
-    }
-    defer resp.Body.Close()
+Delete notes that are no longer required.
 
-    responseBody, err := io.ReadAll(resp.Body)
-    if err != nil {
-        panic(err)
-    }
+#### 5. REST API Integration
 
-    fmt.Println(string(responseBody))
-}
-```
-{% endcode %}
-{% endtab %}
-{% endtabs %}
-{% endstep %}
+Communicate between the frontend and backend using HTTP requests through Amazon API Gateway.
 
-{% step %}
-#### Parse the response
+#### 6. Serverless Backend
 
-If the request succeeds, you should get a response like this:
+Execute backend operations using Python-based AWS Lambda functions without managing traditional servers.
 
-{% code title="response.json" overflow="wrap" %}
-```json
-{
-  "id": "msg_1234567890",
-  "message": "Hello, world!",
-  "status": "queued",
-  "createdAt": "2026-01-01T12:00:00Z"
-}
-```
-{% endcode %}
-{% endstep %}
-{% endstepper %}
-{% endcolumn %}
-{% endcolumns %}
+#### 7. Cloud Database
+
+Store and retrieve application data using Amazon DynamoDB.
+
+#### 8. Responsive User Interface
+
+Access the application through a web interface built with Next.js.
+
+#### 9. Error Handling
+
+Handle API and database errors and return appropriate responses to the frontend.
+
+#### 10. Automated Testing
+
+Use Python tests to verify backend functionality and help maintain application reliability.
+
+### Project Repository
+
+The source code and implementation of CloudNotes are available on GitHub.
+
+**GitHub:** [https://github.com/jebickson/CloudNotes-sam](https://github.com/jebickson/CloudNotes-sam)
+
+#### Project Information
+
+* Project: CloudNotes
+* Type: Full-Stack Cloud Application
+* Backend: Python
+* Cloud Platform: AWS
+* Architecture: Serverless
+
+#### Documentation Purpose
+
+This documentation explains the project's architecture, technology stack, frontend, backend, database, API integration, testing, and deployment process.
+
+
 
 &#x20;
 
 &#x20;
-
-{% columns %}
-{% column width="50%" %}
-<figure><img src="https://gitbookio.github.io/onboarding-template-images/placeholder.png" alt=""><figcaption></figcaption></figure>
-{% endcolumn %}
-
-{% column width="50%" valign="middle" %}
-## Learn more about the developer platform
-
-Read guides, watch tutorials, and learn more about working with the developer platform and integrating it with your own stack.
-
-<a href="https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/guides/guides" class="button primary" data-icon="book-open">Guides</a> <a href="https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/" class="button secondary" data-icon="book">Documentation</a>
-{% endcolumn %}
-{% endcolumns %}
-
-&#x20;
-
-&#x20;
-
-<h2 align="center">Join a community of over 3,000 developers</h2>
-
-<p align="center">Join our Discord community or create your first PR in just a few steps.</p>
-
-<table data-card-size="large" data-view="cards"><thead><tr><th></th><th></th><th></th><th></th><th data-hidden data-card-cover data-type="files"></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><h4><i class="fa-discord">:discord:</i></h4></td><td><strong>Discord community</strong></td><td>Join our Discord community to post questions, get help, and share resources with over 3,000 like-minded developers.</td><td><a href="https://www.gitbook.com/" class="button secondary">Join Discord</a></td><td></td><td><a href="https://www.gitbook.com/">https://www.gitbook.com/</a></td></tr><tr><td><h4><i class="fa-github">:github:</i></h4></td><td><strong>GitHub</strong></td><td>Our product is 100% open source and built by developers just like you. Head to our GitHub repository to learn how to submit your first PR.</td><td><a href="https://github.com/GitbookIO/gitbook-templates" class="button secondary">Submit a PR</a></td><td></td><td><a href="https://www.gitbook.com/">https://www.gitbook.com/</a></td></tr></tbody></table>
 
 &#x20;
