@@ -55,4 +55,4 @@ Using an apex domain (e.g. `yourcompany.com` without a subdomain)? You'll need t
 
 ### Related articles
 
-* [Custom domains](https://app.gitbook.com/s/uRCwCcmC8X6nBm9fUM0q/guides/custom-domains) — the full guide in the documentation
+* [Custom domains](/broken/spaces/uRCwCcmC8X6nBm9fUM0q/pages/56a52747d54863f8df67ff3ce908938888c69b66) — the full guide in the documentation
