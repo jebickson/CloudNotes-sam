@@ -1,10 +1,6 @@
----
-description: >-
-  Documentation of unit testing, integration testing, backend validation, API
-  testing, and local testing procedures for CloudNotes.
----
-
 # Testing and Validation
+
+Documentation of unit testing, integration testing, backend validation, API testing, and local testing procedures for CloudNotes.
 
 ## Testing and Validation
 

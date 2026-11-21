@@ -1,10 +1,6 @@
----
-description: >-
-  An introduction to CloudNotes, including its objectives, technology stack,
-  architecture, AWS infrastructure, and project scope.
----
-
 # Project Overview
+
+An introduction to CloudNotes, including its objectives, technology stack, architecture, AWS infrastructure, and project scope.
 
 ## 1. Introduction
 

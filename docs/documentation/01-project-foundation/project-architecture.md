@@ -1,7 +1,4 @@
 ---
-description: >-
-  Technical overview of CloudNotes architecture, frontend-backend communication,
-  AWS serverless services, and database integration.
 layout:
   width: default
   title:
@@ -25,6 +22,8 @@ layout:
 ---
 
 # Project Architecture
+
+Technical overview of CloudNotes architecture, frontend-backend communication, AWS serverless services, and database integration.
 
 ### 1. Introduction
 

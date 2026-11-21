@@ -1,10 +1,6 @@
----
-description: >-
-  Explanation of the CloudNotes repository structure, including frontend,
-  backend, AWS configuration, events, and automated tests.
----
-
 # Project Folder Structure
+
+Explanation of the CloudNotes repository structure, including frontend, backend, AWS configuration, events, and automated tests.
 
 ## 1. Repository Overview
 

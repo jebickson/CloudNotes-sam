@@ -1,10 +1,6 @@
----
-description: >-
-  Step-by-step instructions for setting up, building, configuring, and deploying
-  the CloudNotes frontend and AWS serverless backend
----
-
 # Deployment Guide
+
+Step-by-step instructions for setting up, building, configuring, and deploying the CloudNotes frontend and AWS serverless backend
 
 ### 1. Introduction
 

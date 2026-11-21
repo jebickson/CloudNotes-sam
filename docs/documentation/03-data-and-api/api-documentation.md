@@ -1,10 +1,6 @@
----
-description: >-
-  API endpoints, HTTP methods, request headers, request parameters, response
-  formats, and error handling for CloudNotes.
----
-
 # API Documentation
+
+API endpoints, HTTP methods, request headers, request parameters, response formats, and error handling for CloudNotes.
 
 ## CloudNotes API Documentation
 

@@ -1,11 +1,6 @@
----
-description: >-
-  Technical documentation of the CloudNotes frontend, including its Next.js
-  structure, user interface, components, API integration, and application
-  workflow.
----
-
 # Frontend Implementation
+
+Technical documentation of the CloudNotes frontend, including its Next.js structure, user interface, components, API integration, and application workflow.
 
 ## Frontend Implementation
 

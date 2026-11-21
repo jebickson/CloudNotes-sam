@@ -1,10 +1,6 @@
----
-description: >-
-  Technical documentation of AWS Lambda, API Gateway, DynamoDB permissions,
-  environment variables, AWS SAM configuration, and cloud infrastructure.
----
-
 # AWS Configuration
+
+Technical documentation of AWS Lambda, API Gateway, DynamoDB permissions, environment variables, AWS SAM configuration, and cloud infrastructure.
 
 ## AWS Configuration
 

@@ -1,10 +1,6 @@
----
-description: >-
-  Detailed explanation of the Python AWS Lambda backend, request handling,
-  DynamoDB operations, validation, and error handling.
----
-
 # Backend Implementation
+
+Detailed explanation of the Python AWS Lambda backend, request handling, DynamoDB operations, validation, and error handling.
 
 ## 1. Backend Overview
 

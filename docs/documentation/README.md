@@ -1,12 +1,10 @@
 ---
-description: >-
-  Technical documentation for CloudNotes, covering project architecture,
-  frontend and backend implementation, REST API, AWS infrastructure, database
-  design, testing, and deployment.
 icon: hand-wave
 ---
 
 # Welcome to CloudNotes
+
+Technical documentation for CloudNotes, covering project architecture, frontend and backend implementation, REST API, AWS infrastructure, database design, testing, and deployment.
 
 #### A Serverless Personal Notes Management Application
 

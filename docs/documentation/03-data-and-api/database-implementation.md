@@ -1,10 +1,6 @@
----
-description: >-
-  - Technical documentation of Amazon DynamoDB, table configuration, data
-  structure, and database operations used by CloudNotes.
----
-
 # Database Implementation
+
+\- Technical documentation of Amazon DynamoDB, table configuration, data structure, and database operations used by CloudNotes.
 
 ## Database Implementation
 
